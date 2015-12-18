@@ -3,38 +3,25 @@ require 'rubygems'
 require 'nokogiri'
 require 'open-uri'
 require 'csv'
-#(74..173).each do |k|
+(157..173).each do |k|
 
-=begin
-baza = File.open('/home/nazrard/ruby_try/baza.txt', 'a')
+@name = Array.new
+@adress = Array.new
+@phone = Array.new
+CSV.open("123.csv", 'ab') do |csv|
 page = Nokogiri::HTML(open("-"),nil ,'UTF-8')
 page.css('td#content div#content-padd div#clinics table tr td div.name').each do |el|
-	adress = el.text
-	baza.puts adress
+@name << el.text
 end
-baza.close
+page.css('td#content div#content-padd div#clinics div.address').each do |el|
+	@adress << el.text
 end
-=end
-=begin
-CSV.open("123.csv", 'ab') do |csv|
-	a = "haha"
-	b = "bebe"
-	csv << [a,b]
-	#csv << ["row", "of", "CSV", "data"]
-	#sv << ["another", "row"]
+page.css('td#content div#content-padd div#clinics div.phones').each do |el|
+	@phone << el.text
 end
-=end
-CSV.open("123.csv", 'ab') do |csv|
-page = Nokogiri::HTML(open("https://en.wikipedia.org/wiki/HTML"),nil ,'UTF-8')
-page.css('div#content div#bodyContent table.infobox tr th').each do |el|
-	adress = el.text
-	puts adress
-	csv << [adress, adress]
+@name.zip(@adress, @phone).each {|n, a, b| csv << [n, a, b]}
+
+sleep 5
 end
 end
-=begin
-CSV.open("path/to/file.csv", "wb") do |csv|
-  csv << ["row", "of", "CSV", "data"]
-  csv << ["another", "row"]
-end
-=end
+
