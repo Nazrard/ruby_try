@@ -9,7 +9,7 @@ require 'csv'
 @adress = Array.new
 @phone = Array.new
 CSV.open("123.csv", 'ab') do |csv|
-page = Nokogiri::HTML(open("-"),nil ,'UTF-8')
+page = Nokogiri::HTML(open("url"),nil ,'UTF-8')
 page.css('td#content div#content-padd div#clinics table tr td div.name').each do |el|
 @name << el.text
 end
